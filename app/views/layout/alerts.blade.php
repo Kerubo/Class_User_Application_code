@@ -18,7 +18,7 @@
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
         </button>
-        <?php foreach ($errors->all() as $error): ?>
+        <?php foreach ($errors->all() as $error): 
           <li>{{ $error }}</li>
         <?php endforeach ?>
       </div>
@@ -30,7 +30,7 @@
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
         </button>
-        {{ Session::get('alert')}}
+        {{ Session}::get('alert')}
       </div>
       @endif
 

@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('content')
-{{ Form::open(array('route' => 'users.store')) }}
+{{ Form::model($user array('routes' =>array( 'users.update' $user->id), 'method'=> 'PUT') }}
   <div class="form-group">
     {{ Form::label('Names') }}
     {{ Form::text('names', null, array('class' => 'form-control')) }}

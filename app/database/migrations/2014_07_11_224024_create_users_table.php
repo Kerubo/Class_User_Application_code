@@ -13,17 +13,16 @@ class CreateUsersTable extends Migration {
 	public function up()
 	{
 		Schema::create('users', function($table)
-{
-    $table->increments('id');
-    $table->string('names');
-    $table->date('dob');
-    $table->string('gender')->default('female')->nullable();
-    $table->string('marital status');
-    $table->string('country')->default('kenya')->nullable();
-    $table->string('photo');
-    $table->timestamps();
-} );
-
+		{
+	    $table->increments('id');
+	    $table->string('names');
+	    $table->date('dob');
+	    $table->string('gender')->default('Female')->nullable();
+	    $table->string('marital_status');
+	    $table->string('photo')->nullable();
+	    $table->string('country')->default('Kenya')->nullable();
+	    $table->timestamps();
+		});
 	}
 
 	/**
@@ -37,3 +36,4 @@ class CreateUsersTable extends Migration {
 	}
 
 }
+
