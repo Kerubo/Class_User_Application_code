@@ -4,37 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hacking--Users</title>
+    <title>Hacking Users</title>
 
     <!-- Bootstrap -->
     {{HTML::style('assets/css/bootstrap.min.css')}}
   </head>
   <body>
     <div class="container">
-      <!-- Validation errors go here -->
-      @if(Session::has('errors'))
-      <div class="alert alert-warning alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <?php foreach ($errors->all() as $error): ?>
-          <li>{{ $error }}</li>
-        <?php endforeach ?>
-      </div>
-      @endif
-       <!-- Validation errors end here -->
-      @if(Session::has('alerts'))
-      <div class="alert alert-info alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        {{ Session::get('alert')}}
-      </div>
-      @endif
-
-     
+      @include('layout.alerts')
       @yield('content')
     </div>
 

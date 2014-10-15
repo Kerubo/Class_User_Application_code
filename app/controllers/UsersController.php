@@ -8,10 +8,18 @@ class UsersController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-
 	{
-		// pull all users from database
-		$User = User::all();
+		// Push all tables:users records from database
+		// SQL SELECT * FROM `users`
+		$users = User::paginate(User::$pages);
+		return View::make('users.index', compact('users'));
+	}
+
+
+	public function search()
+	{
+		$name  = Input::get('names');
+		$users = User::where('names', 'LIKE', "%$name%")->paginate(User::$pages);
 		return View::make('users.index', compact('users'));
 	}
 
@@ -59,7 +67,7 @@ class UsersController extends \BaseController {
 		else
 		{
 			// Redirect the user back to the form and show them the errors made
-			return Redirect::back()->withErrors($validation);
+			return Redirect::back()->withErrors($validation)->withInput();
 		}
 	}
 
@@ -72,9 +80,11 @@ class UsersController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//picking the user with the set id
+		// Picking the user with set $id
+		// SQL: SELECT * FROM `users` WHERE `id` = $id
 		$user = User::find($id);
-		return View::make('users.show', compact ('users'));
+		$marital_status = array('Single', 'Divorced', 'Engaged', 'Complicated', 'Married');
+		return View::make('users.show', compact('user', 'marital_status'));
 	}
 
 
@@ -86,10 +96,11 @@ class UsersController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//Fetch Records
-		$user =User::find($id);
-        $marital_status = array('Single', 'Divorced', 'Engaged', 'Complicated', 'Married');
-		return View::make('users.edit', compact('user',marital_status));
+		// Fetch Record
+		$user = User::find($id);
+		$marital_status = array('Single', 'Divorced', 'Engaged', 'Complicated', 'Married');
+
+		return View::make('users.edit', compact('user', 'marital_status'));
 	}
 
 
@@ -101,28 +112,27 @@ class UsersController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		// Edit the date of birth to 'Y-m-d'
+		$user = User::find($id);
+		// Format the date of birth to 'Y-m-d'
 		$dob        = Input::get('dob'); // returns and array
 		$datestring = $dob['year'] .'-'. $dob['month'] .'-'. $dob['day'];
 
 		// Merge new date string back to Input
-		Input::merge(['dob' => $datestring]);
+		Input::merge(array('dob' => $datestring));
 
 		// Capture Form Data
 		$payload    = Input::except('_token');
 		// Validate data and return errors if any
-		$validation = Validator::make($payload, User::$rules);
+		$validation = Validator::make($payload, User::$updateRules);
 
 		if($validation->passes())
 		{
 			// Save data to database
-			//SQL Update 'users' SET (values) WHERE 'id' =$id
-
-			$user = User::create($payload);
-			$user ->update($payload);
+			// SQL UPDATE `users` SET (values) WHERE `id` = $id
+			$user->update($payload);
 			// Redirect user to profile page
 			if ($user) {
-				return Redirect::route('users.show', array($user->id))->with('alert','Record Update');
+				return Redirect::route('users.show', array($user->id))->with('alert', 'Record Updated.');
 			}
 		}
 		else
@@ -141,7 +151,16 @@ class UsersController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+
+		// DELETE FROM `users` WHERE `id` = $id
+		User::destroy($id);
+
+		return Redirect::route('users.index')->with('alert', 'User Deleted');
+	}
+
+	public function allFemales()
+	{
+		return User::where('gender','=', 'Female')->delete();
 	}
 
 

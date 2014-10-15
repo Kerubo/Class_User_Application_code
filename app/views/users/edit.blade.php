@@ -1,7 +1,8 @@
 @extends('layout.master')
 
 @section('content')
-{{ Form::model($user array('routes' =>array( 'users.update' $user->id), 'method'=> 'PUT') }}
+<!-- Load form with user details -->
+{{ Form::model($user, array('route' => array('users.update', $user->id), 'method' => 'PUT')) }}
   <div class="form-group">
     {{ Form::label('Names') }}
     {{ Form::text('names', null, array('class' => 'form-control')) }}
@@ -34,7 +35,7 @@
     {{ Form::select('marital_status', $marital_status, null, array('class' => 'form-control')) }}
   </div>
   <div class="form-group">
-    {{ Form::submit('Create Profile', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Update Profile', array('class' => 'btn btn-primary')) }}
   </div>
 {{ Form::close() }}
 @stop

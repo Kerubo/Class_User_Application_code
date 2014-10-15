@@ -15,4 +15,10 @@ Route::get('/', function()
 {
 	return View::make('layout.master');
 });
-Route::resource('users','UsersController');
+
+Route::resource('auth', 'AuthController');
+Route::get('/users/females', 'UsersController@allFemales');
+Route::get('/users/search',
+ array('as' => 'users.search', 'uses' => 'UsersController@search'));
+
+Route::resource('users', 'UsersController');

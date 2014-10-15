@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('content')
-{{ Form::open(array('route' => 'users.store')) }}
+{{ Form::model($user array('routes' =>array( 'users.update' $user->id), 'method'=> 'PUT') }}
   <div class="form-group">
     {{ Form::label('Names') }}
     {{ Form::text('names', null, array('class' => 'form-control')) }}
@@ -22,10 +22,6 @@
     </div>
   </div>
   <div class="form-group">
-    {{ Form::label('Profile Picture') }}
-    {{ Form::file('phone', null, array('class' => 'form-control')) }}
-  </div>
-  <div class="form-group">
     {{ Form::label('Phone Number') }}
     {{ Form::text('phone', null, array('class' => 'form-control')) }}
   </div>
@@ -38,7 +34,7 @@
     {{ Form::select('marital_status', $marital_status, null, array('class' => 'form-control')) }}
   </div>
   <div class="form-group">
-    {{ Form::submit('Create Profile', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Edit  Profile', array('class' => 'btn btn-primary')) }}
   </div>
 {{ Form::close() }}
 @stop
